@@ -29,7 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(DB);
   };
   //Using run once to avoid changes when reload page
-  create_db.onupgradeneeded = function() {
+  create_db.onupgradeneeded = function(e) {
     console.log("Only Once");
+    let db = e.target.result;
+    //create index
+    let objectStore = db.createObjectStore("citas", {
+      keyPath: "key",
+      autoIncrement: true
+    });
+
+    objectStore.createIndex("mascota", "mascota", { unique: false });
+    objectStore.createIndex("cliente", "cliente", { unique: false });
+    objectStore.createIndex("telefono", "telefono", { unique: true });
+    objectStore.createIndex("fecha", "fecha", { unique: false });
+    objectStore.createIndex("hora", "hora", { unique: false });
+    objectStore.createIndex("sintomas", "sintomas", { unique: false });
   };
 });
