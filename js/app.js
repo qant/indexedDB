@@ -17,6 +17,7 @@ const fecha = document.querySelector("#fecha");
 const hora = document.querySelector("#hora");
 const sintomas = document.querySelector("#sintomas");
 const citas = document.querySelector("#citas");
+const admin = document.querySelector("#administra");
 
 document.addEventListener("DOMContentLoaded", () => {
   let create_db = window.indexedDB.open("citas", 1);
@@ -98,6 +99,17 @@ function showCitas() {
         `;
       citas.appendChild(citaHTML);
       cursor.continue();
+      admin.textContent = "";
+    } else {
+      if (!citas.firstChild) {
+        admin.textContent = "Add Citas to List";
+        let p = document.createElement("p");
+        p.classList.add("alert", "alert-warning", "text-center");
+        p.textContent = "NO Citas! Add new!";
+        citas.appendChild(p);
+      } else {
+        admin.textContent = "Edit Citas";
+      }
     }
   };
 }
