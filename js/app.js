@@ -16,6 +16,7 @@ const telefono = document.querySelector("#telefono");
 const fecha = document.querySelector("#fecha");
 const hora = document.querySelector("#hora");
 const sintomas = document.querySelector("#sintomas");
+const citas = document.querySelector("#citas");
 
 document.addEventListener("DOMContentLoaded", () => {
   let create_db = window.indexedDB.open("citas", 1);
@@ -25,8 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   create_db.onsuccess = function() {
     DB = create_db.result;
-    console.info("Db creted ok!");
-    console.log(DB);
+    showCitas();
   };
   //Using run once to avoid changes when reload page
   create_db.onupgradeneeded = function(e) {
@@ -72,3 +72,26 @@ form.addEventListener("submit", e => {
     console.error("ERROR Cita NOT added!");
   };
 });
+
+function showCitas() {
+  //Clean citas block if any
+  while (citas.firstChild) {
+    citas.removeChild(citas.firstChild);
+  }
+
+  let objectStore = DB.transaction("citas").objectStore("citas");
+
+  objectStore.openCursor().onsuccess = function(e) {
+    let cursor = e.target.result;
+    if (cursor) {
+      let citaHTML = document.createElement("li");
+      citaHTML.setAttribute("data-cita-id", cursor.value.key);
+      citaHTML.classList.add("list-grpoup-item");
+      citaHTML.innerHTML = `
+        <p class="font-weight-bold">Mascota: <span class="font-weight-normal">${cursor.value.mascota}</span></p>
+        `;
+      citas.appendChild(citaHTML);
+      cursor.continue();
+    }
+  };
+}
