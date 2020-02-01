@@ -120,6 +120,33 @@ function showCitas() {
 }
 
 function deleteCita(e) {
-  let cita_id = e.target.parentElement.getAttribute("data-cita-id");
+  let cita_id = Number(e.target.parentElement.getAttribute("data-cita-id"));
   console.log(e.target.parentElement.getAttribute("data-cita-id"));
+
+  let transaction = DB.transaction(["citas"], "readwrite");
+  let objectStore = transaction.objectStore("citas");
+
+  let petition = objectStore.delete(cita_id);
+  petition.onsuccess = () => {
+    form.reset();
+  };
+  transaction.oncomplete = () => {
+    //Delete from DOM ul->li delete
+    /*console.info(e.target.parentElement.parentElement);
+    console.info(e.target.parentElement);*/
+    e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+    console.info("Cita deleted!");
+    if (!citas.firstChild) {
+      admin.textContent = "Add Citas to List";
+      let p = document.createElement("p");
+      p.classList.add("alert", "alert-warning", "text-center");
+      p.textContent = "NO Citas! Add new!";
+      citas.appendChild(p);
+    } else {
+      admin.textContent = "Edit Citas";
+    }
+  };
+  transaction.onerror = () => {
+    console.error("ERROR Cita NOT deleted!");
+  };
 }
