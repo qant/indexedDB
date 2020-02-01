@@ -9,7 +9,7 @@ for (element in elements) {
 
 let DB;
 
-const form = document.getElementsByTagName("form");
+const form = document.querySelector("form");
 const mascota = document.querySelector("#mascota");
 const cliente = document.querySelector("#cliente");
 const telefono = document.querySelector("#telefono");
@@ -45,4 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
     objectStore.createIndex("hora", "hora", { unique: false });
     objectStore.createIndex("sintomas", "sintomas", { unique: false });
   };
+});
+console.log(form);
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const newCita = {
+    mascota: mascota.value,
+    cliente: cliente.value,
+    telefono: telefono.value,
+    fecha: fecha.value,
+    hora: hora.value,
+    sintomas: sintomas.value
+  };
+  console.log(newCita);
 });
