@@ -97,6 +97,11 @@ function showCitas() {
         <p class="font-weight-bold">hora: <span class="font-weight-normal">${cursor.value.hora}</span></p>
         <p class="font-weight-bold">sintomas: <span class="font-weight-normal">${cursor.value.sintomas}</span></p>
         `;
+      const btn = document.createElement("button");
+      btn.classList.add("btn", "btn-danger");
+      btn.innerHTML = '<span aria-hidden="true">x</span> Delete';
+      btn.onclick = deleteCita;
+      citaHTML.appendChild(btn);
       citas.appendChild(citaHTML);
       cursor.continue();
       admin.textContent = "";
@@ -112,4 +117,9 @@ function showCitas() {
       }
     }
   };
+}
+
+function deleteCita(e) {
+  let cita_id = e.target.parentElement.getAttribute("data-cita-id");
+  console.log(e.target.parentElement.getAttribute("data-cita-id"));
 }
