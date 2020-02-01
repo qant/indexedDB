@@ -18,7 +18,7 @@ const hora = document.querySelector("#hora");
 const sintomas = document.querySelector("#sintomas");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const create_db = window.indexedDB.open("citas", 1);
+  let create_db = window.indexedDB.open("citas", 1);
   create_db.onerror = function() {
     console.error("Error db!");
   };
@@ -27,5 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     DB = create_db.result;
     console.info("Db creted ok!");
     console.log(DB);
+  };
+  //Using run once to avoid changes when reload page
+  create_db.onupgradeneeded = function() {
+    console.log("Only Once");
   };
 });
