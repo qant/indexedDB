@@ -58,4 +58,17 @@ form.addEventListener("submit", e => {
     sintomas: sintomas.value
   };
   console.log(newCita);
+  let transaction = DB.transaction(["citas"], "readwrite");
+  let objectStore = transaction.objectStore("citas");
+  console.log(objectStore);
+  let petition = objectStore.add(newCita);
+  petition.onsuccess = () => {
+    form.reset();
+  };
+  transaction.oncomplete = () => {
+    console.info("Cita added!");
+  };
+  transaction.onerror = () => {
+    console.error("ERROR Cita NOT added!");
+  };
 });
