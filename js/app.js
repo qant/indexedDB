@@ -66,6 +66,7 @@ form.addEventListener("submit", e => {
     form.reset();
   };
   transaction.oncomplete = () => {
+    showCitas();
     console.info("Cita added!");
   };
   transaction.onerror = () => {
@@ -86,9 +87,14 @@ function showCitas() {
     if (cursor) {
       let citaHTML = document.createElement("li");
       citaHTML.setAttribute("data-cita-id", cursor.value.key);
-      citaHTML.classList.add("list-grpoup-item");
+      citaHTML.classList.add("list-group-item");
       citaHTML.innerHTML = `
-        <p class="font-weight-bold">Mascota: <span class="font-weight-normal">${cursor.value.mascota}</span></p>
+        <p class="font-weight-bold">mascota: <span class="font-weight-normal">${cursor.value.mascota}</span></p>
+        <p class="font-weight-bold">cliente: <span class="font-weight-normal">${cursor.value.cliente}</span></p>
+        <p class="font-weight-bold">telefono: <span class="font-weight-normal">${cursor.value.telefono}</span></p>
+        <p class="font-weight-bold">fecha: <span class="font-weight-normal">${cursor.value.fecha}</span></p>
+        <p class="font-weight-bold">hora: <span class="font-weight-normal">${cursor.value.hora}</span></p>
+        <p class="font-weight-bold">sintomas: <span class="font-weight-normal">${cursor.value.sintomas}</span></p>
         `;
       citas.appendChild(citaHTML);
       cursor.continue();
